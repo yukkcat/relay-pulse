@@ -17,7 +17,7 @@
 		"X-Stainless-Runtime": "node",
 		"X-Stainless-Runtime-Version": "v24.3.0",
 		"X-Stainless-Timeout": "600",
-		"anthropic-beta": "oauth-2025-04-20,interleaved-thinking-2025-05-14,redact-thinking-2026-02-12,context-management-2025-06-27,prompt-caching-scope-2026-01-05",
+		"anthropic-beta": "oauth-2025-04-20,interleaved-thinking-2025-05-14,redact-thinking-2026-02-12,context-management-2025-06-27,prompt-caching-scope-2026-01-05,claude-code-20250219,advisor-tool-2026-03-01,extended-cache-ttl-2025-04-11",
 		"anthropic-dangerous-direct-browser-access": "true",
 		"anthropic-version": "2023-06-01",
 		"x-app": "cli",
