@@ -92,7 +92,13 @@ func (h *Handler) AdminListMonitors(c *gin.Context) {
 
 	var filtered []config.MonitorSummary
 	for _, s := range summaries {
-		if board != "" && s.Board != board {
+		// 空 board 字段在前端语义上视为 hot（默认板），过滤时同样归一化，
+		// 否则 ?board=hot 会漏掉历史上未填写 board 的通道。
+		effectiveBoard := s.Board
+		if effectiveBoard == "" {
+			effectiveBoard = "hot"
+		}
+		if board != "" && effectiveBoard != board {
 			continue
 		}
 		if status == "disabled" && !s.Disabled {

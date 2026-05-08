@@ -130,9 +130,11 @@ function BoardBadge({ board }: { board: string }) {
     secondary: t('admin.monitors.boardSecondary'),
     cold: t('admin.monitors.boardCold'),
   };
+  // 空 board 字段视为 hot（与服务端默认语义一致），保证颜色与文字始终匹配
+  const effectiveBoard = board || 'hot';
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-medium ${colors[board] || 'bg-muted/10 text-muted'}`}>
-      {labels[board] || labels.hot}
+    <span className={`px-2 py-0.5 rounded text-xs font-medium ${colors[effectiveBoard] || colors.hot}`}>
+      {labels[effectiveBoard] || labels.hot}
     </span>
   );
 }

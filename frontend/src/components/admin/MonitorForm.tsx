@@ -243,6 +243,7 @@ export function MonitorForm({ fetchTemplates, onSave, onCancel }: MonitorFormPro
             label={t('admin.monitors.field.listedSince')}
             value={config.listed_since || ''}
             onChange={v => updateField('listed_since', v)}
+            type="date"
           />
           <FormField
             label={t('admin.monitors.field.priceMin')}

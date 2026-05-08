@@ -380,6 +380,7 @@ export function MonitorDetail({
             value={isEditing ? editFields.listed_since : root?.listed_since}
             editing={isEditing}
             onChange={v => updateField('listed_since', v)}
+            type="date"
           />
           <EditableField
             label={t('admin.monitors.field.expiresAt')}
