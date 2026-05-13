@@ -285,8 +285,10 @@ func (h *Handler) AdminTestSubmission(c *gin.Context) {
 		return
 	}
 	if err := config.ResolveSingleMonitor(appCfg, &cfg, h.configDir()); err != nil {
+		// 多数失败源于 submission 字段不合法或模板名错误（用户/审核员输入），按 422 返回；
+		// 模板文件损坏等服务端问题罕见，但合并到同分支简化处理。
 		logger.Error("admin", "ResolveSingleMonitor 失败", "public_id", publicID, "error", err)
-		apiError(c, http.StatusInternalServerError, ErrCodeInternalError, "解析测试配置失败: "+err.Error())
+		apiError(c, http.StatusUnprocessableEntity, ErrCodeInvalidParam, "解析测试配置失败: "+err.Error())
 		return
 	}
 

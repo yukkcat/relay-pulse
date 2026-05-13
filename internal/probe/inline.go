@@ -278,10 +278,14 @@ func (p *InlineProber) Probe(ctx context.Context, serviceType, templateName, bas
 // logInlineProbeResult 在 InlineProber 的每次探测结束时打印一条结构化日志，
 // 让运维可以 `grep probe_id=probe-xxx` 把一次 inline 探测的所有上下文串起来。
 //
-// 日志级别按主状态分级：绿 → Info；黄 → Warn（含 ResponseSnippet 中前 200 字节）；
-// 红 → Warn（错误摘要 + 截断的 ResponseSnippet）。避免 Error 级别污染告警通道。
+// 日志级别按主状态分级：绿 → Info；黄/红 → Warn（避免 Error 污染告警通道）。
 //
-// extraFields 用于附加调用点已知的字段（如 PSCM、template、base_url），按 slog 键值对追加。
+// 字段说明：
+//   - probe_id / status / sub_status / http_code / latency_ms：result 自身字段
+//   - error：截断到 200 字节，避免日志被超长 payload 撑爆
+//   - 不记录 ResponseSnippet：可能含上游返回的敏感数据（token / cookie / 内部 URL），
+//     由 API 响应层按需返回给管理员前端
+//   - extraFields：调用点已知的上下文（PSCM、template、base_url），按 slog 键值对追加
 func logInlineProbeResult(r *Result, extraFields ...any) {
 	if r == nil {
 		return
