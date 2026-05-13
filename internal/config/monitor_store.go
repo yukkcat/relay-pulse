@@ -90,6 +90,21 @@ type MonitorSummary struct {
 	Source      string `json:"source"`
 	Revision    int64  `json:"revision"`
 	UpdatedAt   string `json:"updated_at"`
+
+	// LatestProbe 是该监测项下所有 model 最新一条探测记录的快照（按 timestamp 取最大）。
+	// 由 api 层在 List 之后注入；store.List 本身不填充（store 层不依赖 storage / runtime config）。
+	// nil 表示没有任何探测记录（新创建或刚归档的通道）。
+	LatestProbe *LatestProbeSnapshot `json:"latest_probe,omitempty"`
+}
+
+// LatestProbeSnapshot 列表页"列表活化"用的最新探测快照。
+type LatestProbeSnapshot struct {
+	Status    int    `json:"status"` // 1=绿 2=黄 0=红
+	SubStatus string `json:"sub_status,omitempty"`
+	HTTPCode  int    `json:"http_code,omitempty"`
+	Latency   int    `json:"latency"`         // ms
+	Timestamp int64  `json:"timestamp"`       // Unix 秒
+	Model     string `json:"model,omitempty"` // 这条记录归属的 model（多 model 通道用得着）
 }
 
 // List 列出 monitors.d/ 下所有监测文件的摘要。

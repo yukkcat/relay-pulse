@@ -6,6 +6,16 @@ export interface MonitorFileMeta {
   updated_at: string;
 }
 
+/** 列表页活化用的最新探测快照 */
+export interface LatestProbeSnapshot {
+  status: number; // 1=绿 2=黄 0=红
+  sub_status?: string;
+  http_code?: number;
+  latency: number; // ms
+  timestamp: number; // Unix 秒
+  model?: string;
+}
+
 /** 监测项摘要（列表用） */
 export interface MonitorSummary {
   key: string;
@@ -22,6 +32,8 @@ export interface MonitorSummary {
   source: string;
   revision: number;
   updated_at: string;
+  /** 最近探测快照，nil 表示该通道还没探测记录（新建或长期归档） */
+  latest_probe?: LatestProbeSnapshot;
 }
 
 /** ServiceConfig 的前端子集（详情/编辑用） */

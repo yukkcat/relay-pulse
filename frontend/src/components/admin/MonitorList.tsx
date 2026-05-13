@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import type { MonitorSummary } from '../../types/monitor';
+import type { TFunction } from 'i18next';
+import type { LatestProbeSnapshot, MonitorSummary } from '../../types/monitor';
 
 interface MonitorListProps {
   monitors: MonitorSummary[];
@@ -85,6 +86,9 @@ export function MonitorList({
                 <th className="py-2 px-3">{t('admin.monitors.colService')}</th>
                 <th className="py-2 px-3">{t('admin.monitors.colChannel')}</th>
                 <th className="py-2 px-3">{t('admin.monitors.colModels')}</th>
+                <th className="py-2 px-3 text-center">{t('admin.monitors.colLatestStatus')}</th>
+                <th className="py-2 px-3 text-right">{t('admin.monitors.colLatestLatency')}</th>
+                <th className="py-2 px-3">{t('admin.monitors.colLatestTime')}</th>
                 <th className="py-2 px-3">{t('admin.monitors.colBoard')}</th>
                 <th className="py-2 px-3">{t('admin.monitors.colStatus')}</th>
                 <th className="py-2 px-3">{t('admin.monitors.colSource')}</th>
@@ -101,6 +105,19 @@ export function MonitorList({
                   <td className="py-2.5 px-3 text-secondary">{m.service}</td>
                   <td className="py-2.5 px-3 text-secondary">{m.channel_name || m.channel}</td>
                   <td className="py-2.5 px-3 text-muted">{m.model_count}</td>
+                  <td className="py-2.5 px-3 text-center">
+                    <LatestStatusDot probe={m.latest_probe} />
+                  </td>
+                  <td className="py-2.5 px-3 text-right text-secondary">
+                    {m.latest_probe && m.latest_probe.latency > 0
+                      ? `${m.latest_probe.latency}ms`
+                      : <span className="text-muted">-</span>}
+                  </td>
+                  <td className="py-2.5 px-3 text-muted text-xs">
+                    {m.latest_probe
+                      ? formatRelativeTime(m.latest_probe.timestamp, t)
+                      : '-'}
+                  </td>
                   <td className="py-2.5 px-3">
                     <BoardBadge board={m.board} />
                   </td>
@@ -137,6 +154,42 @@ function BoardBadge({ board }: { board: string }) {
       {labels[effectiveBoard] || labels.hot}
     </span>
   );
+}
+
+function LatestStatusDot({ probe }: { probe?: LatestProbeSnapshot }) {
+  const { t } = useTranslation();
+  if (!probe) {
+    return <span className="text-muted text-xs" title={t('admin.monitors.latestProbe.none')}>-</span>;
+  }
+  const color =
+    probe.status === 1 ? 'bg-success' :
+    probe.status === 2 ? 'bg-warning' :
+    probe.status === 0 ? 'bg-danger' :
+    'bg-muted';
+  // tooltip 显示 sub_status + http_code，方便鼠标停留看细节
+  const detailParts = [
+    probe.sub_status,
+    probe.http_code ? `HTTP ${probe.http_code}` : '',
+  ].filter(Boolean);
+  const title = detailParts.length > 0 ? detailParts.join(' · ') : undefined;
+  return <span className={`inline-block w-2.5 h-2.5 rounded-full ${color}`} title={title} />;
+}
+
+// formatRelativeTime 把 Unix 秒转成"X 分钟前 / X 小时前 / YYYY-MM-DD"。
+// 与现状页 Tooltip 的时间格式保持一致：分钟级精度即可，不必到秒。
+function formatRelativeTime(unixSec: number, t: TFunction): string {
+  const now = Date.now() / 1000;
+  const diff = Math.max(0, now - unixSec);
+  if (diff < 60) return t('admin.monitors.latestProbe.justNow');
+  if (diff < 3600) return t('admin.monitors.latestProbe.minutesAgo', { count: Math.floor(diff / 60) });
+  if (diff < 86400) return t('admin.monitors.latestProbe.hoursAgo', { count: Math.floor(diff / 3600) });
+  if (diff < 7 * 86400) return t('admin.monitors.latestProbe.daysAgo', { count: Math.floor(diff / 86400) });
+  // 超过 7 天回退到绝对日期，避免"30 天前"造成的歧义
+  const d = new Date(unixSec * 1000);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 function StatusBadge({ disabled, hidden }: { disabled: boolean; hidden: boolean }) {

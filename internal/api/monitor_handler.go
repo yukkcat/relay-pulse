@@ -122,10 +122,94 @@ func (h *Handler) AdminListMonitors(c *gin.Context) {
 		filtered = append(filtered, s)
 	}
 
+	// 注入最近探测快照（列表页活化）：从 runtime config 取每个父 PSC 下所有 model，
+	// 一次 GetLatestBatch 批量拿最新记录，每个 summary 挑 timestamp 最大的填到 LatestProbe。
+	// 注入失败不影响主响应：只 warn 后退化为不带 latest_probe 的列表。
+	h.injectLatestProbe(filtered)
+
 	c.JSON(http.StatusOK, gin.H{
 		"monitors": filtered,
 		"total":    len(filtered),
 	})
+}
+
+// injectLatestProbe 给一批 summary 填充 LatestProbe 字段。
+//
+// 实现：
+//  1. 从 h.config.Monitors（已 resolveTemplates + parent_inheritance，model 字段是模板填充后的真实值）
+//     收集每个父 PSC 对应的所有 (PSCM, summaryIndex) 关联
+//  2. 用 storage.GetLatestBatch 一次批量查询所有 PSCM
+//  3. 对每个 summary，选 timestamp 最大的记录填充 LatestProbe
+//
+// 与 AdminGetMonitorLogs 共用同一 PSCM 来源策略（运行时已解析配置），
+// 确保列表展示与日志面板字段级一致。
+func (h *Handler) injectLatestProbe(summaries []config.MonitorSummary) {
+	if len(summaries) == 0 || h.storage == nil {
+		return
+	}
+
+	appCfg := h.snapshotAppConfig()
+	if appCfg == nil {
+		return
+	}
+
+	// PSC → summary index 反向索引（一个 PSC 可能对应多个 model）
+	type pscKey struct{ provider, service, channel string }
+	pscToSummaryIdx := make(map[pscKey]int, len(summaries))
+	for i, s := range summaries {
+		pscToSummaryIdx[pscKey{s.Provider, s.Service, s.Channel}] = i
+	}
+
+	// 收集所有 PSCM；同时记录每个 PSCM 归属哪个 summary
+	keys := make([]storage.MonitorKey, 0, len(summaries))
+	keyToSummaryIdx := make(map[storage.MonitorKey]int, len(summaries))
+	for _, m := range appCfg.Monitors {
+		idx, ok := pscToSummaryIdx[pscKey{m.Provider, m.Service, m.Channel}]
+		if !ok {
+			continue
+		}
+		k := storage.MonitorKey{
+			Provider: m.Provider,
+			Service:  m.Service,
+			Channel:  m.Channel,
+			Model:    m.Model,
+		}
+		keys = append(keys, k)
+		keyToSummaryIdx[k] = idx
+	}
+	if len(keys) == 0 {
+		return
+	}
+
+	records, err := h.storage.GetLatestBatch(keys)
+	if err != nil {
+		logger.Warn("admin", "批量查询最新探测记录失败，列表退化为不带 latest_probe",
+			"key_count", len(keys), "error", err)
+		return
+	}
+
+	// 对每个 summary 挑 timestamp 最大的 record 填充
+	for k, rec := range records {
+		if rec == nil {
+			continue
+		}
+		idx, ok := keyToSummaryIdx[k]
+		if !ok {
+			continue
+		}
+		summary := &summaries[idx]
+		if summary.LatestProbe != nil && summary.LatestProbe.Timestamp >= rec.Timestamp {
+			continue
+		}
+		summary.LatestProbe = &config.LatestProbeSnapshot{
+			Status:    rec.Status,
+			SubStatus: string(rec.SubStatus),
+			HTTPCode:  rec.HttpCode,
+			Latency:   rec.Latency,
+			Timestamp: rec.Timestamp,
+			Model:     rec.Model,
+		}
+	}
 }
 
 // AdminGetMonitor 获取指定监测项详情
