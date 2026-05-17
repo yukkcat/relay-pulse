@@ -50,9 +50,12 @@ services:
       # - MONITOR_88CODE_CX_API_KEY=sk-another-key
       # - MONITOR_DUCKCODING_CC_API_KEY=sk-duck-key
 
-    # 从 .env 文件加载环境变量（推荐：把 API key 都放在 .env，docker compose 自动读取）
-    env_file:
-      - .env
+    # 可选：用 .env 文件加载 API key（避免写在 config.yaml 里）
+    # 默认注释掉 — API key 直接写在 ./config/config.yaml 即可。如需启用：
+    # 1) 取消下面两行注释
+    # 2) 在仓库根新建 .env，写: MONITOR_88CODE_CC_API_KEY=sk-xxx
+    # env_file:
+    #   - .env
 
     # 健康检查
     healthcheck:
