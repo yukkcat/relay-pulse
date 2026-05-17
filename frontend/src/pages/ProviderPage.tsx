@@ -67,7 +67,8 @@ export default function ProviderPage() {
 
   // 状态管理
   const [timeRange, setTimeRange] = useState('90m');
-  const [timeFilter, setTimeFilter] = useState<string | null>(null);
+  // timeFilter 仍传给 useMonitorData（默认 null=全天），但 UI 不再暴露切换入口
+  const [timeFilter] = useState<string | null>(null);
   const [filterService, setFilterService] = useState<string[]>([]);
   const [filterChannel, setFilterChannel] = useState<string[]>([]);
   // filterCategory 在 Provider 页面固定为空数组（全部），不需要状态
@@ -396,7 +397,6 @@ export default function ProviderPage() {
         <Controls
           timeRange={timeRange}
           timeAlign={timeAlign}
-          timeFilter={timeFilter}
           board={board}
           boardsEnabled={boardsEnabled}
           filterService={filterService}
@@ -418,7 +418,6 @@ export default function ProviderPage() {
           onFilterDrawerClose={() => setShowFilterDrawer(false)}
           onTimeRangeChange={setTimeRange}
           onTimeAlignChange={setTimeAlign}
-          onTimeFilterChange={setTimeFilter}
           onBoardChange={setBoard}
           onServiceChange={setFilterService}
           onProviderChange={() => {}} // 无操作
