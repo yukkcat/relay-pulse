@@ -56,7 +56,7 @@ jobs:
         env:
           VITE_NOTIFIER_API_URL: https://notifier.relaypulse.top
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run build
           echo "Frontend build completed"
           ls -la dist/
