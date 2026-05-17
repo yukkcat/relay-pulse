@@ -145,7 +145,7 @@ export function ChangeRequestList({
             onClick={() => setStatusFilter(f)}
             className={`px-3 py-1.5 text-xs rounded-lg transition ${
               statusFilter === f
-                ? 'bg-accent/20 text-accent font-medium'
+                ? 'bg-accent/10 text-accent font-medium'
                 : 'bg-elevated text-muted hover:text-secondary'
             }`}
           >
@@ -350,7 +350,7 @@ export function ChangeRequestList({
                             />
                             <button
                               onClick={() => { onReject(cr.public_id, rejectNote); setRejectNote(''); }}
-                              className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition"
+                              className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg text-muted hover:text-danger hover:bg-danger/10 transition"
                             >
                               <X size={12} />{t('admin.changes.reject')}
                             </button>
@@ -360,7 +360,7 @@ export function ChangeRequestList({
                       {cr.status === 'approved' && cr.apply_mode === 'auto' && (
                         <button
                           onClick={() => onApply(cr.public_id)}
-                          className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-success/10 text-success hover:bg-success/20 transition"
+                          className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-accent/10 text-accent hover:bg-accent/20 transition"
                         >
                           <Play size={12} />{t('admin.changes.apply')}
                         </button>

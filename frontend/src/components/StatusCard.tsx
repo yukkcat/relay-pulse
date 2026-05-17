@@ -78,7 +78,7 @@ function StatusCardComponent({
 
   return (
     <div
-      className={`group relative ${baseBgClass} border border-default hover:border-accent/30 ${hasLeftBorder ? 'rounded-l-sm border-l-2' : 'rounded-l-2xl'} rounded-r-2xl p-4 sm:p-6 transition-all duration-300 hover:shadow-accent-lg backdrop-blur-sm overflow-hidden`}
+      className={`group relative ${baseBgClass} border border-default hover:border-strong ${hasLeftBorder ? 'rounded-l-sm border-l-2' : 'rounded-l-2xl'} rounded-r-2xl p-4 sm:p-6 transition-all duration-200 backdrop-blur-sm overflow-hidden`}
       style={borderColor ? { borderLeftColor: borderColor } : undefined}
     >
       {/* 注解行 - 仅在有注解时显示 */}

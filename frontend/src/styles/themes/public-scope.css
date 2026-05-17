@@ -1,0 +1,79 @@
+/**
+ * 公开页 Scope 主题覆写（Linear / Vercel 克制风）
+ *
+ * 仅作用于带 `.public-scope` 类的子树（路由层面包裹在 PublicLayout 上）。
+ * Admin 后台不在此 scope 内，保持原有 cyan 主题不变。
+ *
+ * 共性设计语言：
+ * - 单一中性强调色（dark=off-white / light=near-black），去掉 cyan
+ * - 边框极弱，靠间距和字重做层级
+ * - 状态色保留语义但饱和度降一档
+ */
+
+/* ===== Dark 主题 =====
+ * data-theme 设在 <html>（root），用祖先选择器才能匹配。
+ * :root:not([data-theme]) 兜底处理首屏未注入主题的瞬态。
+ */
+:root[data-theme="default-dark"] .public-scope,
+:root:not([data-theme]) .public-scope {
+  /* 背景层次 - 近黑递进 */
+  --bg-page: 0 0% 4%;              /* #0a0a0a */
+  --bg-surface: 0 0% 6%;            /* #0f0f0f */
+  --bg-elevated: 0 0% 9%;           /* #171717 */
+  --bg-muted: 0 0% 14%;             /* #242424 */
+
+  /* 文字层次 - 中性灰阶 */
+  --text-primary: 0 0% 93%;         /* #ededed */
+  --text-secondary: 0 0% 63%;       /* #a1a1a1 */
+  --text-muted: 0 0% 42%;           /* #6b6b6b */
+
+  /* 边框 - 几乎不可见 */
+  --border-default: 0 0% 14%;       /* #242424 */
+  --border-strong: 0 0% 22%;        /* #383838 */
+
+  /* 强调色 - off-white，去 cyan */
+  --accent: 0 0% 90%;               /* #e5e5e5 */
+  --accent-strong: 0 0% 100%;       /* #ffffff */
+
+  /* 状态色 - 哑光化 */
+  --success: 152 40% 50%;
+  --warning: 40 70% 58%;
+  --danger: 0 60% 60%;
+
+  /* 渐变改为浅色调，保证 hero 标题在近黑底上可读 */
+  --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 70%));
+  --gradient-button: hsl(0 0% 90%);
+}
+
+/* ===== Light 主题 ===== */
+:root[data-theme="light-cool"] .public-scope {
+  /* 背景层次 - 近白递进 */
+  --bg-page: 0 0% 99%;              /* #fcfcfc */
+  --bg-surface: 0 0% 100%;          /* #ffffff */
+  --bg-elevated: 0 0% 97%;          /* #f7f7f7 */
+  --bg-muted: 0 0% 93%;             /* #ededed */
+
+  /* 文字层次 - 深到浅 */
+  --text-primary: 0 0% 9%;          /* #171717 */
+  --text-secondary: 0 0% 40%;       /* #666666 */
+  --text-muted: 0 0% 56%;           /* #8f8f8f */
+  --text-inverse: 0 0% 100%;        /* 白底配色用于反色 */
+
+  /* 边框 - 极淡 */
+  --border-default: 0 0% 90%;       /* #e5e5e5 */
+  --border-strong: 0 0% 80%;        /* #cccccc */
+
+  /* 强调色 - near-black，反向克制 */
+  --accent: 0 0% 9%;                /* #171717 */
+  --accent-strong: 0 0% 0%;         /* #000000 */
+
+  /* 状态色 - 在白底上加深一档保证对比度 */
+  --success: 152 50% 38%;
+  --warning: 32 80% 45%;
+  --danger: 0 65% 50%;
+
+  /* 渐变改为深色，保证 hero 标题在白底上可读 */
+  --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 35%));
+  --gradient-button: hsl(0 0% 9%);
+}
+

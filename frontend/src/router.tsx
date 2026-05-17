@@ -29,6 +29,21 @@ function LanguageLayout({ lang }: LanguageLayoutProps) {
 }
 
 /**
+ * 公开页 Scope 包裹层
+ *
+ * 给所有面向访客的页面（首页、ProviderPage、Contact、Onboarding、ChangeRequest）
+ * 套一层 `.public-scope` 类，在 CSS 中覆写主题 token 为 Linear 风。
+ * Admin 后台不走这层，保持原 cyan 主题不变。
+ */
+function PublicScopeLayout() {
+  return (
+    <div className="public-scope">
+      <Outlet />
+    </div>
+  );
+}
+
+/**
  * 路由级加载占位符
  * 使用与主题一致的背景色和三点跳动动画，避免视觉跳跃
  * 注意：使用 CSS 变量以支持主题切换
@@ -81,12 +96,16 @@ function renderChildRoutes(langPrefix?: string) {
   const applyRedirect = langPrefix ? `/${langPrefix}/contact/apply` : '/contact/apply';
   return (
     <>
-      <Route index element={<App />} />
-      <Route path="p/:provider" element={<ProviderPage />} />
-      <Route path="contact" element={<ContactPage />} />
-      <Route path="contact/apply" element={<OnboardingPage />} />
-      <Route path="contact/change" element={<ChangeRequestPage />} />
-      <Route path="apply" element={<Navigate to={applyRedirect} replace />} />
+      {/* 公开页：套 public-scope，应用 Linear 风主题覆写 */}
+      <Route element={<PublicScopeLayout />}>
+        <Route index element={<App />} />
+        <Route path="p/:provider" element={<ProviderPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="contact/apply" element={<OnboardingPage />} />
+        <Route path="contact/change" element={<ChangeRequestPage />} />
+        <Route path="apply" element={<Navigate to={applyRedirect} replace />} />
+      </Route>
+      {/* Admin 不在 public-scope 内，保持 cyan 主题 */}
       <Route path="admin" element={<AdminPage />} />
     </>
   );

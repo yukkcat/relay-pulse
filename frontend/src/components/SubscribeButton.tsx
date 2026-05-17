@@ -90,7 +90,7 @@ export function SubscribeButton({ favorites, iconOnly = false, inGroup = false, 
             focus-visible:ring-2 ${inGroup ? 'focus-visible:ring-inset' : ''} focus-visible:ring-accent/50 focus-visible:outline-none
             ${isDisabled
               ? 'text-muted cursor-not-allowed'
-              : 'text-secondary hover:text-accent hover:bg-muted/50'
+              : 'text-secondary hover:text-primary hover:bg-muted/50'
             }
             ${className}
           `}
@@ -129,7 +129,7 @@ export function SubscribeButton({ favorites, iconOnly = false, inGroup = false, 
           focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none
           ${isDisabled
             ? 'bg-elevated/50 text-muted cursor-not-allowed'
-            : 'bg-accent/10 text-accent hover:bg-accent/20 border border-accent/30'
+            : 'bg-elevated text-primary hover:bg-muted/60 border border-default'
           }
           ${className}
         `}

@@ -52,7 +52,7 @@ export function Footer() {
               key={title}
               className="flex items-start gap-2 sm:gap-3 bg-elevated/60 rounded-xl p-2.5 sm:p-3 shadow-sm"
             >
-              <div className="text-accent flex-shrink-0 mt-0.5">
+              <div className="text-secondary flex-shrink-0 mt-0.5">
                 <Icon size={14} className="sm:w-4 sm:h-4" />
               </div>
               <div className="text-[11px] sm:text-xs leading-relaxed">

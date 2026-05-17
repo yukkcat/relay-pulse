@@ -86,7 +86,6 @@ function App() {
   const [showFilterDrawer, setShowFilterDrawer] = useState(false);
   const {
     setTimeRange,
-    setTimeFilter,   // 每日时段过滤
     setBoard,        // 切换板块
     setFilterProvider,
     setFilterService,
@@ -566,8 +565,8 @@ function App() {
         {/* 背景装饰 - 截图模式下隐藏 */}
         {!isScreenshotMode && (
           <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-            <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px]" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px]" />
+            <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-accent/[0.04] rounded-full blur-[120px]" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-accent/[0.04] rounded-full blur-[120px]" />
           </div>
         )}
 
@@ -612,7 +611,6 @@ function App() {
               favoritesCount={effectiveFavoritesCount}
               timeRange={timeRange}
               timeAlign={timeAlign}
-              timeFilter={timeFilter}
               board={board}
               boardsEnabled={boardsEnabled}
               boardCounts={boardCounts}
@@ -632,7 +630,6 @@ function App() {
               onShowFavoritesOnlyChange={handleFavoritesModeChange}
               onTimeRangeChange={setTimeRange}
               onTimeAlignChange={setTimeAlign}
-              onTimeFilterChange={setTimeFilter}
               onBoardChange={setBoard}
               onViewModeChange={setViewMode}
               onRefresh={handleRefresh}
@@ -678,7 +675,7 @@ function App() {
             </div>
           ) : loading && data.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-muted gap-4">
-              <div className="w-12 h-12 border-4 border-accent/20 rounded-full animate-spin" style={{ borderTopColor: 'hsl(var(--accent))' }} />
+              <div className="w-12 h-12 border-4 border-default rounded-full animate-spin" style={{ borderTopColor: 'hsl(var(--text-primary))' }} />
               <p className="animate-pulse">{t('common.loading')}</p>
             </div>
           ) : data.length === 0 ? (

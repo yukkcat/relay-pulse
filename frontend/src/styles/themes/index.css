@@ -1,17 +1,14 @@
 /**
  * RelayPulse 主题系统入口
  *
- * 四套主题：
- * - default-dark: 默认暗色（现有）
- * - night-dark: 护眼暖暗
- * - light-cool: 冷灰亮色
- * - light-warm: 暖灰亮色
+ * 两套主题：
+ * - default-dark: 暗色（黑底白字）
+ * - light-cool: 亮色（白底黑字）
  */
 
 @import './default-dark.css';
-@import './night-dark.css';
 @import './light-cool.css';
-@import './light-warm.css';
+@import './public-scope.css';
 
 /* 语义化工具类 */
 @layer utilities {

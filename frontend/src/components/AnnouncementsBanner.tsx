@@ -89,7 +89,7 @@ export function AnnouncementsBanner({
     <div
       className={`
         relative overflow-hidden
-        bg-accent/10 border border-accent/20 rounded-lg
+        bg-elevated/60 border border-default rounded-lg
         transition-all duration-300 ease-out
         ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}
         ${className}
@@ -98,14 +98,14 @@ export function AnnouncementsBanner({
       <div className="flex items-center gap-3 px-4 py-3">
         {/* 图标 */}
         <div className="flex-shrink-0">
-          <Megaphone className="w-5 h-5 text-accent" />
+          <Megaphone className="w-5 h-5 text-secondary" />
         </div>
 
         {/* 内容 */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             {/* 标签 */}
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider bg-muted/40 text-primary">
               {t('announcements.newAnnouncement')}
             </span>
 
@@ -114,7 +114,7 @@ export function AnnouncementsBanner({
               href={latest.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-medium text-primary hover:text-accent transition-colors truncate max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
+              className="text-sm font-medium text-primary hover:underline truncate max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
               title={latest.title}
             >
               {latest.title}
@@ -141,7 +141,7 @@ export function AnnouncementsBanner({
             href={discussionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent/10 rounded-md transition-colors"
+            className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-secondary hover:text-primary hover:bg-muted/40 rounded-md transition-colors"
           >
             {t('announcements.viewAll')}
             <ChevronRight className="w-3 h-3" />
@@ -152,7 +152,7 @@ export function AnnouncementsBanner({
             href={discussionsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="sm:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-accent hover:bg-accent/10 rounded-md transition-colors"
+            className="sm:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-secondary hover:text-primary hover:bg-muted/40 rounded-md transition-colors"
             title={t('announcements.viewAll')}
             aria-label={t('announcements.viewAll')}
           >

@@ -440,7 +440,7 @@ function MobileSortMenu({
             onClick={() => onSort(option.key)}
             className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex-shrink-0 focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
               isActive
-                ? 'bg-accent/20 text-accent border border-accent/30'
+                ? 'bg-muted/40 text-primary border border-strong/60'
                 : 'bg-elevated text-secondary border border-default hover:text-primary'
             }`}
           >
@@ -491,9 +491,9 @@ function StatusTableComponent({
       return <ArrowUpDown size={14} className="opacity-30 ml-1" />;
     }
     return sortConfig.direction === 'asc' ? (
-      <ArrowUp size={14} className="text-accent ml-1" />
+      <ArrowUp size={14} className="text-primary ml-1" />
     ) : (
-      <ArrowDown size={14} className="text-accent ml-1" />
+      <ArrowDown size={14} className="text-primary ml-1" />
     );
   };
 
@@ -553,7 +553,7 @@ function StatusTableComponent({
             {/* 服务商列（合并赞助者） */}
             {showProvider && (
               <th
-                className="px-3 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+                className="px-3 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
                 onClick={() => onSort('providerName')}
                 onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('providerName'))}
                 tabIndex={0}
@@ -565,7 +565,7 @@ function StatusTableComponent({
               </th>
             )}
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('serviceType')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('serviceType'))}
               tabIndex={0}
@@ -576,7 +576,7 @@ function StatusTableComponent({
               </div>
             </th>
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('channel')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('channel'))}
               tabIndex={0}
@@ -590,7 +590,7 @@ function StatusTableComponent({
               {t('table.headers.model')}
             </th>
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('priceRatio')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('priceRatio'))}
               tabIndex={0}
@@ -615,7 +615,7 @@ function StatusTableComponent({
               </div>
             </th>
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('listedDays')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('listedDays'))}
               tabIndex={0}
@@ -630,7 +630,7 @@ function StatusTableComponent({
               </div>
             </th>
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('uptime')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('uptime'))}
               tabIndex={0}
@@ -641,7 +641,7 @@ function StatusTableComponent({
               </div>
             </th>
             <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('lastCheck')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('lastCheck'))}
               tabIndex={0}
@@ -712,7 +712,7 @@ function StatusTableComponent({
                               e.stopPropagation();
                               onFilterProvider(item.providerId);
                             }}
-                            className="flex-shrink-0 p-0.5 rounded opacity-0 group-hover/provider:opacity-60 hover:!opacity-100 hover:text-accent transition-opacity cursor-pointer"
+                            className="flex-shrink-0 p-0.5 rounded opacity-0 group-hover/provider:opacity-60 hover:!opacity-100 hover:text-primary transition-opacity cursor-pointer"
                             title={t('table.filterByProvider')}
                           >
                             <Filter size={10} />

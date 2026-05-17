@@ -224,7 +224,7 @@ export function TimeFilterPicker({ value, disabled = false, onChange }: TimeFilt
           ${disabled
             ? 'bg-elevated/50 text-muted cursor-not-allowed'
             : value
-              ? 'bg-gradient-button text-inverse shadow-lg shadow-accent/25'
+              ? 'bg-elevated text-primary border border-strong/60'
               : 'bg-elevated/80 text-secondary hover:bg-muted/80'
           }
         `}
@@ -254,7 +254,7 @@ export function TimeFilterPicker({ value, disabled = false, onChange }: TimeFilt
                     w-full flex items-center justify-between px-4 py-2.5 text-sm
                     transition-colors
                     ${preset.utcValue === value || (preset.utcValue === null && value === null)
-                      ? 'bg-accent/20 text-accent'
+                      ? 'bg-muted/40 text-primary'
                       : 'text-secondary hover:bg-muted/50'
                     }
                   `}
@@ -275,7 +275,7 @@ export function TimeFilterPicker({ value, disabled = false, onChange }: TimeFilt
                   w-full flex items-center justify-between px-4 py-2.5 text-sm
                   transition-colors
                   ${!matchedPreset && value
-                    ? 'bg-accent/20 text-accent'
+                    ? 'bg-muted/40 text-primary'
                     : 'text-secondary hover:bg-muted/50'
                   }
                 `}
@@ -283,6 +283,17 @@ export function TimeFilterPicker({ value, disabled = false, onChange }: TimeFilt
                 <span>{t('timeFilter.presets.custom')}</span>
                 {!matchedPreset && value && <Check className="w-4 h-4" />}
               </button>
+
+              {/* 清除筛选（恢复默认全天）— 仅在已选中筛选时显示 */}
+              {value && (
+                <button
+                  type="button"
+                  onClick={() => { onChange(null); setIsOpen(false); }}
+                  className="w-full px-4 py-2 text-xs text-muted hover:text-primary hover:bg-muted/50 transition-colors text-left"
+                >
+                  {t('common.clear', { defaultValue: '清除' })}
+                </button>
+              )}
             </div>
           )}
 

@@ -39,8 +39,8 @@ export function EmptyFavorites({ onClearFilter }: EmptyFavoritesProps) {
           onClick={onClearFilter}
           className="
             px-4 py-2 rounded-lg
-            bg-accent/10 text-accent
-            hover:bg-accent/20
+            bg-elevated text-primary border border-default
+            hover:bg-muted/60
             transition-colors duration-150
             focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none
           "

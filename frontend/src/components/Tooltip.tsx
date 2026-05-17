@@ -158,7 +158,7 @@ export function Tooltip({ tooltip, slowLatencyMs, timeRange, onClose }: TooltipP
     <>
       {/* 模型信息（显示 requestModel，回退到 model） */}
       {(tooltip.data!.requestModel || tooltip.data!.model) && (
-        <div className="text-accent text-center font-medium text-xs border-b border-default/30 pb-1 mb-1">
+        <div className="text-primary text-center font-medium text-xs border-b border-default/30 pb-1 mb-1">
           {t('multiModel.modelPrefix')} {tooltip.data!.requestModel || tooltip.data!.model}
           {tooltip.data!.layerOrder !== undefined && (
             <span className="text-muted text-[10px] ml-1">

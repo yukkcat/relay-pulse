@@ -3,7 +3,6 @@ import { Filter, LayoutGrid, List, X, Clock, AlignStartVertical, Star } from 'lu
 import { useTranslation } from 'react-i18next';
 import { getTimeRanges } from '../constants';
 import { MultiSelect } from './MultiSelect';
-import { TimeFilterPicker } from './TimeFilterPicker';
 import { SubscribeButton } from './SubscribeButton';
 import { BoardSwitcher } from './BoardSwitcher';
 import { RefreshButton } from './RefreshButton';
@@ -20,7 +19,6 @@ interface ControlsProps {
   favoritesCount: number;     // 收藏数量
   timeRange: string;
   timeAlign: string;         // 时间对齐模式：空=动态窗口, "hour"=整点对齐
-  timeFilter: string | null; // 每日时段过滤：null=全天, "09:00-17:00"=自定义
   board: BoardFilter;        // 当前板块：hot/secondary/cold/all
   boardsEnabled: boolean;    // 板块功能是否启用
   boardCounts?: BoardCounts; // 各板块通道数量（可选，兼容旧后端）
@@ -43,7 +41,6 @@ interface ControlsProps {
   onShowFavoritesOnlyChange: (value: boolean) => void; // 收藏筛选回调
   onTimeRangeChange: (range: string) => void;
   onTimeAlignChange: (align: string) => void;       // 切换时间对齐模式
-  onTimeFilterChange: (filter: string | null) => void; // 切换每日时段过滤
   onBoardChange: (board: BoardFilter) => void;      // 切换板块
   onViewModeChange: (mode: ViewMode) => void;
   onRefresh: () => void;
@@ -60,7 +57,6 @@ export function Controls({
   favoritesCount,
   timeRange,
   timeAlign,
-  timeFilter,
   board,
   boardsEnabled,
   boardCounts,
@@ -83,7 +79,6 @@ export function Controls({
   onShowFavoritesOnlyChange,
   onTimeRangeChange,
   onTimeAlignChange,
-  onTimeFilterChange,
   onBoardChange,
   onViewModeChange,
   onRefresh,
@@ -198,7 +193,7 @@ export function Controls({
                 flex items-center gap-1.5 px-3 h-full transition-all duration-200
                 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/50 focus-visible:outline-none
                 ${showFavoritesOnly
-                  ? 'bg-accent/10 text-accent'
+                  ? 'bg-muted/40 text-primary'
                   : 'text-secondary hover:text-primary hover:bg-muted/50'
                 }
                 ${!showFavoritesOnly && favoritesCount === 0 ? 'opacity-50 cursor-not-allowed' : ''}
@@ -249,8 +244,8 @@ export function Controls({
                 onClick={() => onViewModeChange('table')}
                 className={`p-1.5 rounded min-w-[32px] flex-1 flex items-center justify-center focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
                   viewMode === 'table'
-                    ? 'bg-muted text-accent shadow'
-                    : 'text-secondary hover:text-primary'
+                    ? 'bg-muted/60 text-primary'
+                    : 'text-muted hover:text-primary'
                 }`}
                 title={t('controls.views.table')}
                 aria-label={t('controls.views.switchToTable')}
@@ -262,8 +257,8 @@ export function Controls({
                 onClick={() => onViewModeChange('grid')}
                 className={`p-1.5 rounded min-w-[32px] flex-1 flex items-center justify-center focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
                   viewMode === 'grid'
-                    ? 'bg-muted text-accent shadow'
-                    : 'text-secondary hover:text-primary'
+                    ? 'bg-muted/60 text-primary'
+                    : 'text-muted hover:text-primary'
                 }`}
                 title={t('controls.views.card')}
                 aria-label={t('controls.views.switchToCard')}
@@ -309,10 +304,10 @@ export function Controls({
                     title={is24h && isActive
                       ? (timeAlign === 'hour' ? t('controls.timeAlign.hourTitle') : t('controls.timeAlign.dynamicTitle'))
                       : undefined}
-                    className={`px-3 py-2 text-xs font-medium rounded-xl transition-all duration-200 whitespace-nowrap flex-shrink-0 focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
+                    className={`px-3 py-2 text-xs font-medium rounded-xl transition-all duration-150 whitespace-nowrap flex-shrink-0 focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
                       isActive
-                        ? 'bg-gradient-button text-inverse shadow-lg shadow-accent/25'
-                        : 'text-secondary hover:text-primary hover:bg-elevated'
+                        ? 'bg-muted/40 text-primary'
+                        : 'text-muted hover:text-primary'
                     }`}
                   >
                     <span className="flex items-center gap-1">
@@ -326,15 +321,6 @@ export function Controls({
                   </button>
                 );
               })}
-
-              {/* 时段筛选（仅 7d/30d 有效）- 现在在滚动容器内，Portal 确保下拉菜单不被裁剪 */}
-              <div className="flex-shrink-0">
-                <TimeFilterPicker
-                  value={timeFilter}
-                  disabled={timeRange === '24h' || timeRange === '90m'}
-                  onChange={onTimeFilterChange}
-                />
-              </div>
             </div>
           </div>
         </div>

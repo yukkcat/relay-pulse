@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Activity, CheckCircle, AlertTriangle, Sparkles, Share2, Filter } from 'lucide-react';
+import { Activity, CheckCircle, AlertTriangle, Share2, Filter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -104,8 +104,8 @@ export function Header({ stats, onFilterClick, onRefresh, loading, refreshCooldo
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 lg:gap-3">
-            <div className="p-1.5 lg:p-2 bg-accent/10 rounded-lg border border-accent/20 flex-shrink-0 animate-heartbeat">
-              <Activity className="w-5 h-5 lg:w-6 lg:h-6 text-accent" />
+            <div className="p-1.5 lg:p-2 bg-elevated rounded-lg border border-default flex-shrink-0 animate-heartbeat">
+              <Activity className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
             </div>
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-gradient-hero">
@@ -156,7 +156,7 @@ export function Header({ stats, onFilterClick, onRefresh, loading, refreshCooldo
                         setShowMobileLangMenu(false);
                       }}
                       className={`w-full p-2 flex items-center justify-center hover:bg-muted/50 transition-colors first:rounded-t-lg last:rounded-b-lg focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
-                        currentLang === lang ? 'bg-accent/20' : ''
+                        currentLang === lang ? 'bg-muted/40' : ''
                       }`}
                       role="option"
                       aria-selected={currentLang === lang}
@@ -224,7 +224,7 @@ export function Header({ stats, onFilterClick, onRefresh, loading, refreshCooldo
                         setShowDesktopLangMenu(false);
                       }}
                       className={`w-full p-2 flex items-center justify-center hover:bg-muted/50 transition-colors first:rounded-t-lg last:rounded-b-lg focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none ${
-                        currentLang === lang ? 'bg-accent/20' : ''
+                        currentLang === lang ? 'bg-muted/40' : ''
                       }`}
                       role="option"
                       aria-selected={currentLang === lang}
@@ -249,18 +249,6 @@ export function Header({ stats, onFilterClick, onRefresh, loading, refreshCooldo
             title={t('share.share')}
           >
             <Share2 size={16} />
-          </button>
-
-          {/* 联系我们按钮 → 联系页面 */}
-          <button
-            onClick={() => {
-              const langPath = LANGUAGE_PATH_MAP[currentLang];
-              navigate(langPath ? `/${langPath}/contact` : '/contact');
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-accent/40 bg-accent/10 text-accent font-semibold tracking-wide shadow-accent hover:bg-accent/20 transition focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
-          >
-            <Sparkles size={14} />
-            {t('header.contactBtn')}
           </button>
 
           {/* 统计卡片 - 紧凑单行 */}
@@ -319,18 +307,6 @@ export function Header({ stats, onFilterClick, onRefresh, loading, refreshCooldo
         >
           <Share2 size={12} />
           {t('share.shareShort')}
-        </button>
-
-        {/* 联系我们按钮 - 移动端紧凑版 */}
-        <button
-          onClick={() => {
-            const langPath = LANGUAGE_PATH_MAP[currentLang];
-            navigate(langPath ? `/${langPath}/contact` : '/contact');
-          }}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg border border-accent/40 bg-accent/10 text-accent text-xs font-medium shadow-accent hover:bg-accent/20 transition whitespace-nowrap focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
-        >
-          <Sparkles size={12} />
-          {t('header.contactBtnShort')}
         </button>
       </div>
     </header>

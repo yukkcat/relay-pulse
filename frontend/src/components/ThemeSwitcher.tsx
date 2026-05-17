@@ -19,12 +19,8 @@ function ThemeIcon({ themeId, size = 16 }: { themeId: ThemeId; size?: number }) 
   switch (themeId) {
     case 'default-dark':
       return <Moon size={size} />;
-    case 'night-dark':
-      return <Moon size={size} className="text-warning" />;
     case 'light-cool':
       return <Sun size={size} />;
-    case 'light-warm':
-      return <Sun size={size} className="text-warning" />;
     default:
       return <Palette size={size} />;
   }
@@ -102,7 +98,7 @@ export function ThemeSwitcher() {
               w-full flex items-center justify-center p-2
               transition-colors cursor-pointer first:rounded-t-lg last:rounded-b-lg
               focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none
-              ${theme === t_.id ? 'bg-accent/20 text-accent' : 'text-primary hover:bg-muted/50'}
+              ${theme === t_.id ? 'bg-elevated text-primary' : 'text-muted hover:text-primary hover:bg-elevated/60'}
             `}
             role="option"
             aria-selected={theme === t_.id}

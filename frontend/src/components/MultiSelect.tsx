@@ -226,7 +226,7 @@ export function MultiSelect({
                   w-full flex items-center gap-2 px-3 py-2 text-sm text-left
                   transition-colors
                   ${isAllSelected
-                    ? 'bg-accent/10 text-accent'
+                    ? 'bg-muted/40 text-primary'
                     : 'text-secondary hover:bg-muted/50'
                   }
                 `}
@@ -262,7 +262,7 @@ export function MultiSelect({
                       w-full flex items-center gap-2 px-3 py-2 text-sm text-left
                       transition-colors
                       ${isSelected
-                        ? 'bg-accent/10 text-accent'
+                        ? 'bg-muted/40 text-primary'
                         : 'text-secondary hover:bg-muted/50'
                       }
                     `}

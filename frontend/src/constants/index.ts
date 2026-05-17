@@ -83,8 +83,8 @@ export const FEEDBACK_URLS = {
 
 // 时段筛选预设配置
 // 注意：value 代表用户本地时间，组件会在发送给后端时转换为 UTC
+// "全天"已不再作为显式预设；当 value === null 时 UI 会显示"全天"作为默认态
 export const TIME_FILTER_PRESETS: TimeFilterPreset[] = [
-  { id: 'all', labelKey: 'timeFilter.presets.all', value: null },
   { id: 'work', labelKey: 'timeFilter.presets.work', value: '09:00-17:00' },      // 本地工作时间
   { id: 'morning', labelKey: 'timeFilter.presets.morning', value: '06:00-12:00' }, // 本地上午
   { id: 'afternoon', labelKey: 'timeFilter.presets.afternoon', value: '12:00-18:00' }, // 本地下午

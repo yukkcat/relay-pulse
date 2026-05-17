@@ -138,9 +138,9 @@ export function MonitorList({
 function BoardBadge({ board }: { board: string }) {
   const { t } = useTranslation();
   const colors: Record<string, string> = {
-    hot: 'bg-success/20 text-success',
-    secondary: 'bg-warning/20 text-warning',
-    cold: 'bg-muted/20 text-muted',
+    hot: 'bg-success/15 text-success',
+    secondary: 'bg-warning/15 text-warning',
+    cold: 'bg-muted/15 text-muted',
   };
   const labels: Record<string, string> = {
     hot: t('admin.monitors.boardHot'),
@@ -195,10 +195,10 @@ function formatRelativeTime(unixSec: number, t: TFunction): string {
 function StatusBadge({ disabled, hidden }: { disabled: boolean; hidden: boolean }) {
   const { t } = useTranslation();
   if (disabled) {
-    return <span className="px-2 py-0.5 rounded text-xs font-medium bg-danger/20 text-danger">{t('admin.monitors.statusDisabled')}</span>;
+    return <span className="px-2 py-0.5 rounded text-xs font-medium bg-danger/15 text-danger">{t('admin.monitors.statusDisabled')}</span>;
   }
   if (hidden) {
-    return <span className="px-2 py-0.5 rounded text-xs font-medium bg-warning/20 text-warning">{t('admin.monitors.statusHidden')}</span>;
+    return <span className="px-2 py-0.5 rounded text-xs font-medium bg-warning/15 text-warning">{t('admin.monitors.statusHidden')}</span>;
   }
-  return <span className="px-2 py-0.5 rounded text-xs font-medium bg-success/20 text-success">{t('admin.monitors.statusActive')}</span>;
+  return <span className="px-2 py-0.5 rounded text-xs font-medium bg-success/15 text-success">{t('admin.monitors.statusActive')}</span>;
 }

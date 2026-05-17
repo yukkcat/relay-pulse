@@ -9,7 +9,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-export type ThemeId = 'default-dark' | 'night-dark' | 'light-cool' | 'light-warm';
+export type ThemeId = 'default-dark' | 'light-cool';
 
 export interface Theme {
   id: ThemeId;
@@ -19,9 +19,7 @@ export interface Theme {
 
 export const THEMES: Theme[] = [
   { id: 'default-dark', nameKey: 'theme.defaultDark', isDark: true },
-  { id: 'night-dark', nameKey: 'theme.nightDark', isDark: true },
   { id: 'light-cool', nameKey: 'theme.lightCool', isDark: false },
-  { id: 'light-warm', nameKey: 'theme.lightWarm', isDark: false },
 ];
 
 const STORAGE_KEY = 'relay-pulse-theme';

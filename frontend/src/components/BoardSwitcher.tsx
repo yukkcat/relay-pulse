@@ -137,7 +137,7 @@ function BoardSwitcherComponent({ board, onBoardChange, enabled, boardCounts }: 
                 w-full px-3 py-1.5 flex items-center gap-1.5 text-xs whitespace-nowrap
                 transition-colors cursor-pointer
                 focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none
-                ${board === b ? 'bg-accent/15 text-accent' : 'text-primary hover:bg-muted/50'}
+                ${board === b ? 'bg-muted/40 text-primary' : 'text-secondary hover:text-primary hover:bg-elevated/60'}
               `}
               role="option"
               aria-selected={board === b}
@@ -145,7 +145,7 @@ function BoardSwitcherComponent({ board, onBoardChange, enabled, boardCounts }: 
               <BoardEmoji board={b} />
               <span className="font-medium">{t(`controls.boards.${b}`)}</span>
               {showCounts && (
-                <span className={`text-[10px] tabular-nums ${board === b ? 'text-accent/70' : 'text-secondary'}`}>
+                <span className={`text-[10px] tabular-nums ${board === b ? 'text-secondary' : 'text-muted'}`}>
                   {countMap[b]}
                 </span>
               )}

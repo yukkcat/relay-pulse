@@ -82,7 +82,7 @@ function SponsorCoreIcon() {
 function FrequencyIcon({ opacity }: { opacity: number }) {
   return (
     <svg
-      className="w-4 h-4 text-accent"
+      className="w-4 h-4 text-secondary"
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
