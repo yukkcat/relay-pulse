@@ -1,0 +1,28 @@
+{
+	"model": "Unified",
+	"url": "{{BASE_URL}}/v1/chat/completions",
+	"method": "POST",
+	"headers": {
+		"Authorization": "Bearer {{API_KEY}}",
+		"Content-Type": "application/json"
+	},
+	"body": {
+		"model": "{{MODEL}}",
+		"max_tokens": 30,
+		"stream": false,
+		"messages": [
+			{
+				"role": "user",
+				"content": "Reply with the single word: hello"
+			}
+		]
+	},
+	"response": {
+		"success_contains": "hello"
+	},
+	"probe": {
+		"slow_latency": "15s",
+		"timeout": "60s",
+		"retry": 0
+	}
+}
