@@ -36,16 +36,18 @@ const getCachedServiceIcon = (serviceType: string) => {
 
 // 通道单元格组件（带自定义 CSS tooltip，替代原生 title 属性）
 interface ChannelCellProps {
-  channel?: string;
+  channel?: string;          // 用于解析通道类型前缀（o-/r-/m-）
+  channelLabel?: string;     // 用于显示文字，缺省回退到 channel
   probeUrl?: string;
   templateName?: string;
   coldReason?: string;
   className?: string;
 }
 
-function ChannelCell({ channel, probeUrl, templateName, coldReason, className = '' }: ChannelCellProps) {
+function ChannelCell({ channel, channelLabel, probeUrl, templateName, coldReason, className = '' }: ChannelCellProps) {
   const { t } = useTranslation();
   const channelType = parseChannelType(channel);
+  const displayText = channelLabel || channel || '-';
   const hasTooltip = !!(channelType || probeUrl || templateName || coldReason);
   const triggerRef = useRef<HTMLSpanElement>(null);
   const leaveTimer = useRef<number>(0);
@@ -87,7 +89,7 @@ function ChannelCell({ channel, probeUrl, templateName, coldReason, className = 
   const channelContent = (
     <>
       <ChannelTypeIcon channel={channel} />
-      <span className="min-w-0 truncate">{channel || '-'}</span>
+      <span className="min-w-0 truncate">{displayText}</span>
     </>
   );
 
@@ -328,7 +330,8 @@ function MobileListItem({
               </span>
               {item.channel && (
                 <ChannelCell
-                  channel={item.channelName || item.channel}
+                  channel={item.channel}
+                  channelLabel={item.channelName || item.channel}
                   probeUrl={item.probeUrl}
                   templateName={item.templateName}
                   coldReason={item.coldReason}
@@ -724,7 +727,8 @@ function StatusTableComponent({
               </td>
               <td className="px-2 py-1 text-secondary text-xs">
                 <ChannelCell
-                  channel={item.channelName || item.channel}
+                  channel={item.channel}
+                  channelLabel={item.channelName || item.channel}
                   probeUrl={item.probeUrl}
                   templateName={item.templateName}
                   coldReason={item.coldReason}
