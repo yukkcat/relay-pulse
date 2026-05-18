@@ -628,7 +628,7 @@ function StatusTableComponent({
                 <SortIcon columnKey="lastCheck" />
               </div>
             </th>
-            <th className="pl-2 pr-4 py-3 font-medium min-w-[260px]">
+            <th className="pl-2 pr-4 py-3 font-medium min-w-[420px] w-full">
               <div className="flex items-center gap-2">
                 {t('table.headers.trend')}
                 <span className="text-[10px] normal-case opacity-50 border border-default px-1 rounded">
