@@ -16,7 +16,7 @@ export default function OnboardingPage() {
   return (
     <>
       <Helmet>
-        <title>{t('onboarding.meta.title')} | RelayPulse</title>
+        <title>{t('onboarding.meta.title')} | 小恐龙 API</title>
         <meta name="description" content={t('onboarding.meta.description')} />
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>

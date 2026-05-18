@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Github, Tag, ChevronDown, ChevronUp, Bug, Zap, Handshake, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Github, ChevronDown, ChevronUp, Bug, Zap, Handshake, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useVersionInfo } from '../hooks/useVersionInfo';
 import { FEEDBACK_URLS } from '../constants';
 
 export function Footer() {
   const { t } = useTranslation();
-  const { versionInfo } = useVersionInfo();
   const [expanded, setExpanded] = useState(false);
 
   const notices = [
@@ -89,18 +87,6 @@ export function Footer() {
           <span className="hidden sm:inline text-muted">·</span>
           <span className="text-muted text-[11px] sm:text-xs">{t('footer.openSourceLabel')}</span>
         </div>
-        {versionInfo && (
-          <>
-            <span className="hidden sm:inline text-muted">·</span>
-            <div
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-elevated/50 text-secondary"
-              title={`Commit: ${versionInfo.git_commit} | Built: ${versionInfo.build_time}`}
-            >
-              <Tag size={14} className="text-muted" />
-              <span className="text-secondary">{versionInfo.version}</span>
-            </div>
-          </>
-        )}
       </div>
     </footer>
   );
