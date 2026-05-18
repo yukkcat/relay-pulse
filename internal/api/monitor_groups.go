@@ -21,7 +21,7 @@ type StatusPoint struct {
 type MonitorLayer struct {
 	Model         string              `json:"model,omitempty"`
 	RequestModel  string              `json:"request_model,omitempty"` // 实际请求模型 ID（优先 request_model，回退 model）
-	LayerOrder    int                 `json:"layer_order"`   // 0=父，1+=子（按配置顺序）
+	LayerOrder    int                 `json:"layer_order"`             // 0=父，1+=子（按配置顺序）
 	CurrentStatus StatusPoint         `json:"current_status"`
 	Timeline      []storage.TimePoint `json:"timeline"`
 }
