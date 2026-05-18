@@ -118,7 +118,7 @@ function ChannelCell({ channel, channelLabel, probeUrl, templateName, coldReason
               <span className="flex flex-col">
                 <span className="text-muted text-[10px]">{t('table.channelTooltip.channelType')}</span>
                 <span className="text-primary text-[11px]">
-                  {t(`table.channelType.${channelType}`)} — {t(`table.channelType.${channelType}Desc`)}
+                  {t(`table.channelType.${channelType}`)}
                 </span>
               </span>
             )}

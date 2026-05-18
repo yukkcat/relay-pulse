@@ -19,8 +19,8 @@ type StatusPoint struct {
 
 // MonitorLayer 监测层（单个 model 的探测结果）
 type MonitorLayer struct {
-	Model         string              `json:"model"`
-	RequestModel  string              `json:"request_model"` // 实际请求模型 ID（优先 request_model，回退 model）
+	Model         string              `json:"model,omitempty"`
+	RequestModel  string              `json:"request_model,omitempty"` // 实际请求模型 ID（优先 request_model，回退 model）
 	LayerOrder    int                 `json:"layer_order"`   // 0=父，1+=子（按配置顺序）
 	CurrentStatus StatusPoint         `json:"current_status"`
 	Timeline      []storage.TimePoint `json:"timeline"`
@@ -107,6 +107,14 @@ func toStatusPoint(current *CurrentStatus) StatusPoint {
 		Latency:   current.Latency,
 		Timestamp: current.Timestamp,
 	}
+}
+
+// modelIfExposed 在 expose=false 时返回空串，让前端 omitempty 隐藏字段
+func modelIfExposed(model string, expose bool) string {
+	if !expose {
+		return ""
+	}
+	return model
 }
 
 // resolvedRequestModel 返回最终用于请求的模型 ID。
@@ -340,8 +348,8 @@ func (h *Handler) buildMonitorGroups(
 			}
 		}
 		layers = append(layers, MonitorLayer{
-			Model:         b.parent.Model,
-			RequestModel:  resolvedRequestModel(b.parent),
+			Model:         modelIfExposed(b.parent.Model, exposeChannelDetails),
+			RequestModel:  modelIfExposed(resolvedRequestModel(b.parent), exposeChannelDetails),
 			LayerOrder:    0,
 			CurrentStatus: parentData.current,
 			Timeline:      parentData.timeline,
@@ -363,8 +371,8 @@ func (h *Handler) buildMonitorGroups(
 				}
 			}
 			layers = append(layers, MonitorLayer{
-				Model:         child.Model,
-				RequestModel:  resolvedRequestModel(child),
+				Model:         modelIfExposed(child.Model, exposeChannelDetails),
+				RequestModel:  modelIfExposed(resolvedRequestModel(child), exposeChannelDetails),
 				LayerOrder:    i + 1,
 				CurrentStatus: d.current,
 				Timeline:      d.timeline,
