@@ -70,31 +70,6 @@ export function RefreshButton({
         />
       </button>
 
-      {/* 自动刷新状态圆点（仅在 showToggle=true 且 onToggleAutoRefresh 存在时显示） */}
-      {showToggle && onToggleAutoRefresh && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleAutoRefresh();
-          }}
-          className="absolute -top-1 -right-1 z-10 w-5 h-5 grid place-items-center cursor-pointer touch-manipulation select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-full"
-          title={autoRefresh ? t('controls.autoRefresh.enabledHint') : t('controls.autoRefresh.disabledHint')}
-          aria-label={t('controls.autoRefresh.toggle')}
-          aria-pressed={autoRefresh}
-        >
-          {/* 状态圆点：开启=青色，关闭=灰色，无边框 */}
-          <span
-            aria-hidden="true"
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
-              autoRefresh
-                ? 'bg-accent/70'
-                : 'bg-secondary/50'
-            }`}
-          />
-        </button>
-      )}
-
       {/* 冷却提示 */}
       {refreshCooldown && (
         <div className={`absolute top-full left-1/2 -translate-x-1/2 ${isSmall ? 'mt-1' : 'mt-2'} px-2 py-1 bg-elevated text-secondary text-[10px] rounded whitespace-nowrap shadow-lg border border-default z-50`}>

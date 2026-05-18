@@ -7,15 +7,6 @@ import { ExternalLinkModal } from './ExternalLinkModal';
 // sessionStorage key 用于记住"不再提示"选项
 const DONT_SHOW_AGAIN_KEY = 'externalLink_dontShowAgain';
 
-// 检查是否已选择"不再提示"
-const shouldSkipConfirm = () => {
-  try {
-    return sessionStorage.getItem(DONT_SHOW_AGAIN_KEY) === 'true';
-  } catch {
-    return false;
-  }
-};
-
 // 保存"不再提示"选项
 const saveDontShowAgain = () => {
   try {
@@ -85,14 +76,6 @@ export function ExternalLink({
   // 点击处理
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
-      // 需要确认且未勾选"不再提示"：始终弹窗（安全优先）
-      if (requireConfirm && !shouldSkipConfirm()) {
-        e.preventDefault();
-        setShowModal(true);
-        return;
-      }
-
-      // 不再提示模式或 requireConfirm=false
       // 修饰键（Cmd/Ctrl/Shift）：保留浏览器原生行为
       if (e.metaKey || e.ctrlKey || e.shiftKey) {
         trackClick();
@@ -103,7 +86,7 @@ export function ExternalLink({
       e.preventDefault();
       openLink();
     },
-    [requireConfirm, openLink, trackClick]
+    [openLink, trackClick]
   );
 
   // 确认跳转
