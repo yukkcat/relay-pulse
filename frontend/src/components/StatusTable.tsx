@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { List, type RowComponentProps } from 'react-window';
-import { ArrowUpDown, ArrowUp, ArrowDown, Zap, Shield, Filter, Info } from 'lucide-react';
+import { ArrowUpDown, ArrowUp, ArrowDown, Zap, Shield, Filter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { StatusDot } from './StatusDot';
 import { HeatmapBlock } from './HeatmapBlock';
@@ -16,7 +16,6 @@ import { aggregateHeatmap } from '../utils/heatmapAggregator';
 import { createMediaQueryEffect } from '../utils/mediaQuery';
 import { shortenModelName } from '../utils/modelName';
 import { hasAnyAnnotation, hasAnyAnnotationInList } from '../utils/annotationUtils';
-import { formatPriceRatioStructured } from '../utils/format';
 import { getServiceIconComponent } from './ServiceIcon';
 import type { ProcessedMonitorData, SortConfig } from '../types';
 
@@ -424,7 +423,6 @@ function MobileSortMenu({
     { key: 'uptime', label: t('table.sorting.uptime') },
     { key: 'lastCheck', label: t('table.sorting.lastCheck') },
     { key: 'serviceType', label: t('table.sorting.service') },
-    { key: 'priceRatio', label: t('table.sorting.priceRatio') },
     { key: 'listedDays', label: t('table.sorting.listedDays') },
   ];
 
@@ -591,31 +589,6 @@ function StatusTableComponent({
             </th>
             <th
               className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
-              onClick={() => onSort('priceRatio')}
-              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('priceRatio'))}
-              tabIndex={0}
-              role="button"
-            >
-              <div className="flex items-center">
-                <div className="flex flex-col leading-tight">
-                  <span>{t('table.headers.priceRatioLine1')}</span>
-                  <span className="text-[10px] opacity-50 font-normal">{t('table.headers.priceRatioLine2')}</span>
-                </div>
-                <span
-                  className="relative group/price-tip ml-1 inline-flex items-center cursor-help"
-                  onClick={(e) => e.stopPropagation()}
-                  onKeyDown={(e) => e.stopPropagation()}
-                >
-                  <Info size={12} className="text-secondary opacity-70" aria-hidden="true" />
-                  <span className="absolute left-1/2 top-full z-50 mt-1 w-48 -translate-x-1/2 rounded-lg border border-default bg-elevated px-2 py-1.5 text-[11px] font-normal normal-case tracking-normal leading-snug whitespace-normal text-primary opacity-0 pointer-events-none shadow-lg transition-opacity delay-150 group-hover/price-tip:opacity-100 group-hover/price-tip:pointer-events-auto">
-                    {t('table.headers.priceRatioTooltip')}
-                  </span>
-                </span>
-                <SortIcon columnKey="priceRatio" />
-              </div>
-            </th>
-            <th
-              className="px-2 py-3 font-medium whitespace-nowrap cursor-pointer hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
               onClick={() => onSort('listedDays')}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onSort('listedDays'))}
               tabIndex={0}
@@ -774,20 +747,6 @@ function StatusTableComponent({
                       {models.map((m, i) => (
                         <span key={i} className="block truncate">{m}</span>
                       ))}
-                    </div>
-                  );
-                })()}
-              </td>
-              <td className="px-2 py-1 font-mono text-xs whitespace-nowrap">
-                {(() => {
-                  const priceData = formatPriceRatioStructured(item.priceMin, item.priceMax);
-                  if (!priceData) return <span className="text-muted">-</span>;
-                  return (
-                    <div className="flex flex-col leading-tight">
-                      <span className="text-secondary">{priceData.base}</span>
-                      {priceData.sub && (
-                        <span className="text-[10px] text-muted">{priceData.sub}</span>
-                      )}
                     </div>
                   );
                 })()}
