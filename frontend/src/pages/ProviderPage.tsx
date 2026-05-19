@@ -66,7 +66,7 @@ export default function ProviderPage() {
   }, [setSearchParams]);
 
   // 状态管理
-  const [timeRange, setTimeRange] = useState('90m');
+  const [timeRange, setTimeRange] = useState('3h');
   // timeFilter 仍传给 useMonitorData（默认 null=全天），但 UI 不再暴露切换入口
   const [timeFilter] = useState<string | null>(null);
   const [filterService, setFilterService] = useState<string[]>([]);

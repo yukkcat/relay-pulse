@@ -60,7 +60,7 @@ function StatusCardComponent({
   );
 
   const currentTimeRange = getTimeRanges(t).find((r) => r.id === timeRange);
-  const useLatencyGradient = timeRange === '90m';
+  const useLatencyGradient = timeRange === '3h' || timeRange === '90m';
   const ServiceIcon = getCachedServiceIcon(item.serviceType);
 
   // 检查是否有注解需要显示

@@ -41,14 +41,14 @@ function makePoint(index: number, timestampNum: number, overrides: Partial<Histo
 }
 
 describe('aggregateHeatmap', () => {
-  it('returns original points for 90m window (span <= 5400s)', () => {
+  it('returns original points for 3h window (span <= 10800s)', () => {
     const now = Math.floor(Date.now() / 1000);
     const points = [
       makePoint(0, now - 3600),
       makePoint(1, now - 1800),
       makePoint(2, now),
     ];
-    // 90m window: span = 3600s <= 5400s → no aggregation
+    // 3h window: span = 7200s <= 10800s → no aggregation
     const result = aggregateHeatmap(points);
     expect(result).toBe(points); // same reference
   });
@@ -92,6 +92,7 @@ describe('getAggregationFactor', () => {
     expect(getAggregationFactor('24h')).toBe(1);
     expect(getAggregationFactor('7d')).toBe(1);
     expect(getAggregationFactor('30d')).toBe(1);
+    expect(getAggregationFactor('3h')).toBe(1);
     expect(getAggregationFactor('90m')).toBe(1);
   });
 });

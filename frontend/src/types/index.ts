@@ -208,7 +208,7 @@ export interface TimeRange {
   id: string;
   label: string;
   points: number;
-  unit: 'minute' | 'hour' | 'day';
+  unit: 'minute' | 'quarter-hour' | 'hour' | 'day';
 }
 
 // 服务商配置

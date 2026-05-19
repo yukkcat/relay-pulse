@@ -51,6 +51,7 @@ export function fetchMockMonitorData(timeRangeId: string): Promise<ProcessedMoni
 
             // 根据 unit 计算时间步长（minute=60s, hour=3600s, day=86400s）
             const unitMs = rangeConfig.unit === 'minute' ? 60000
+              : rangeConfig.unit === 'quarter-hour' ? 15 * 60000
               : rangeConfig.unit === 'hour' ? 3600000
               : 86400000;
             const timestampMs = Date.now() - (count - index) * unitMs;

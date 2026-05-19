@@ -388,7 +388,7 @@ func (h *Handler) GetStatus(c *gin.Context) {
 	var timeFilter *TimeFilter
 	if timeFilterParam != "" {
 		// 时段过滤仅支持 7d 和 30d 周期
-		if period == "90m" || period == "24h" || period == "1d" {
+		if period == "3h" || period == "90m" || period == "24h" || period == "1d" {
 			apiError(c, http.StatusBadRequest, ErrCodeInvalidParam, "时段过滤仅支持 7d 和 30d 周期")
 			return
 		}

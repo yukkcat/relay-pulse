@@ -71,8 +71,8 @@ function isOneHourRange(points: HistoryPoint[]): boolean {
 
   const minTs = Math.min(...timestamps);
   const maxTs = Math.max(...timestamps);
-  // 时间跨度 <= 90 分钟 (5400 秒) 视为 90m 模式
-  return (maxTs - minTs) <= 5400;
+  // 时间跨度 <= 3 小时 (10800 秒) 视为短窗口原始记录模式
+  return (maxTs - minTs) <= 10800;
 }
 
 /**
@@ -86,7 +86,7 @@ export function aggregateHeatmap(
   points: HistoryPoint[],
   maxBlocks = 50
 ): HistoryPoint[] {
-  // 90m 模式不聚合（桌面/移动端一致展示原始数据）
+  // 短窗口模式不聚合（桌面/移动端一致展示原始数据）
   if (isOneHourRange(points)) {
     return points;
   }
@@ -254,7 +254,8 @@ export function getAggregationFactor(timeRange: string): number {
   // 根据时间范围返回推荐的聚合因子
   switch (timeRange) {
     case '90m':
-      return 1; // 90m 模式不聚合
+    case '3h':
+      return 1; // 短窗口模式不聚合
     case '24h':
       return 2; // 48 点 → 24 块
     case '7d':

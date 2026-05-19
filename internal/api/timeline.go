@@ -25,7 +25,7 @@ func (h *Handler) buildTimeline(records []*storage.ProbeRecord, endTime time.Tim
 	// 根据 period 确定 bucket 策略
 	bucketCount, bucketWindow, format := h.determineBucketStrategy(period)
 
-	// 90m 模式：不聚合，直接返回原始记录
+	// 短窗口模式：不聚合，直接返回原始记录
 	if bucketCount == 0 {
 		return h.buildRawTimeline(records, endTime, format, degradedWeight, timeFilter)
 	}
@@ -142,7 +142,7 @@ func (h *Handler) buildTimeline(records []*storage.ProbeRecord, endTime time.Tim
 func (h *Handler) buildTimelineFromAgg(rows []storage.AggBucketRow, endTime time.Time, period string, degradedWeight float64) []storage.TimePoint {
 	bucketCount, bucketWindow, format := h.determineBucketStrategy(period)
 
-	// 90m 模式不走聚合（调用方应避免进入）
+	// 原始记录模式不走聚合（调用方应避免进入）
 	if bucketCount == 0 {
 		return make([]storage.TimePoint, 0)
 	}
@@ -201,7 +201,7 @@ func (h *Handler) buildTimelineFromAgg(rows []storage.AggBucketRow, endTime time
 	return buckets
 }
 
-// buildRawTimeline 将原始探测记录直接转换为时间轴（90m 模式专用，不聚合）
+// buildRawTimeline 将原始探测记录直接转换为时间轴（短窗口模式专用，不聚合）
 func (h *Handler) buildRawTimeline(records []*storage.ProbeRecord, endTime time.Time, format string, degradedWeight float64, timeFilter *TimeFilter) []storage.TimePoint {
 	// 初始化为空切片，确保 JSON 序列化时返回 [] 而不是 null
 	timeline := make([]storage.TimePoint, 0)
@@ -241,7 +241,7 @@ func (h *Handler) buildRawTimeline(records []*storage.ProbeRecord, endTime time.
 // count=0 表示不聚合，返回原始记录
 func (h *Handler) determineBucketStrategy(period string) (count int, window time.Duration, format string) {
 	switch period {
-	case "90m":
+	case "3h", "90m":
 		return 0, 0, "15:04:05" // 不聚合，返回原始记录
 	case "24h", "1d":
 		return 24, time.Hour, "15:04"
@@ -266,7 +266,7 @@ func availabilityWeight(status int, degradedWeight float64) float64 {
 	}
 }
 
-// statusToAvailability 将单条状态映射为可用率百分比（90m 模式专用）
+// statusToAvailability 将单条状态映射为可用率百分比（原始记录模式专用）
 func statusToAvailability(status int, degradedWeight float64) float64 {
 	switch status {
 	case 1: // 绿色

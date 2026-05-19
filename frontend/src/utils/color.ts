@@ -258,7 +258,7 @@ export function latencyToColor(latency: number, slowLatencyMs: number): string {
 }
 
 /**
- * 90m 绿色块延迟渐变：深绿 → 黄绿
+ * 短窗口绿色块延迟渐变：深绿 → 黄绿
  *
  * - ratio < 0.2       → 深绿（亮度降 10%）
  * - 0.2 ≤ ratio < 1.0 → 深绿 → 黄绿渐变
@@ -287,7 +287,7 @@ export function greenLatencyToColor(latency: number, slowLatencyMs: number): str
 }
 
 /**
- * 90m 黄色块延迟渐变：黄绿偏黄 → 纯黄 → 橙黄
+ * 短窗口黄色块延迟渐变：黄绿偏黄 → 纯黄 → 橙黄
  *
  * - ratio ≤ 1.0       → 黄绿偏黄（yellow mix green 20%）
  * - 1.0 < ratio < 2.0 → 黄绿偏黄 → 纯黄

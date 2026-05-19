@@ -108,9 +108,9 @@ func (h *Handler) queryAndSerialize(ctx context.Context, period, align string, t
 
 	logger.Info("api", "GetStatus 查询完成", "mode", mode, "monitors", len(filteredData), "layered", len(filteredLayered), "period", period, "align", align, "count", len(response), "groups", len(groups))
 
-	// 确定 timeline 模式：90m 返回原始记录，其他返回聚合数据
+	// 确定 timeline 模式：短窗口返回原始记录，其他返回聚合数据
 	timelineMode := "aggregated"
-	if period == "90m" {
+	if period == "3h" || period == "90m" {
 		timelineMode = "raw"
 	}
 
@@ -423,6 +423,8 @@ func formatMonitorKey(provider, service, channel, model string) string {
 // parsePeriod 解析时间范围（仅用于验证）
 func (h *Handler) parsePeriod(period string) (time.Duration, error) {
 	switch period {
+	case "3h":
+		return 3 * time.Hour, nil
 	case "90m":
 		return 90 * time.Minute, nil
 	case "24h", "1d":
@@ -438,15 +440,18 @@ func (h *Handler) parsePeriod(period string) (time.Duration, error) {
 
 // parseTimeRange 解析时间范围，返回 (startTime, endTime)
 // align 参数控制时间对齐模式：空=动态滑动窗口, "hour"=整点对齐
-// 注意：90m 固定使用动态窗口，7d/30d 模式自动使用 day 对齐，忽略 align 参数
+// 注意：3h/90m 固定使用动态窗口，7d/30d 模式自动使用 day 对齐，忽略 align 参数
 func (h *Handler) parseTimeRange(period, align string) (startTime, endTime time.Time) {
 	now := time.Now()
 
 	// 根据 period 计算时间范围
-	// 90m: 固定动态窗口
+	// 3h/90m: 固定动态窗口
 	// 24h: 用户可选 align 模式
 	// 7d/30d: 强制使用 day 对齐（包含今天不完整数据）
 	switch period {
+	case "3h":
+		endTime = now // 动态滑动窗口：不对齐
+		startTime = endTime.Add(-3 * time.Hour)
 	case "90m":
 		endTime = now // 动态滑动窗口：不对齐
 		startTime = endTime.Add(-90 * time.Minute)

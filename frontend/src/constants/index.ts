@@ -11,7 +11,7 @@ export const PROVIDERS: Provider[] = [
 
 // 时间范围结构定义（仅 id/points/unit，供 mockMonitor 等非 i18n 场景使用）
 export const TIME_RANGES: TimeRange[] = [
-  { id: '90m', label: '近90分钟', points: 90, unit: 'minute' },
+  { id: '3h', label: '近3小时', points: 12, unit: 'quarter-hour' },
   { id: '24h', label: '近24小时', points: 24, unit: 'hour' },
   { id: '7d', label: '近7天', points: 7, unit: 'day' },
   { id: '30d', label: '近30天', points: 30, unit: 'day' },
@@ -19,7 +19,7 @@ export const TIME_RANGES: TimeRange[] = [
 
 // 时间范围配置工厂函数（i18n 版本）
 export const getTimeRanges = (t: TFunction): TimeRange[] => [
-  { id: '90m', label: t('controls.timeRanges.90m'), points: 90, unit: 'minute' },
+  { id: '3h', label: t('controls.timeRanges.3h'), points: 12, unit: 'quarter-hour' },
   { id: '24h', label: t('controls.timeRanges.24h'), points: 24, unit: 'hour' },
   { id: '7d', label: t('controls.timeRanges.7d'), points: 7, unit: 'day' },
   { id: '30d', label: t('controls.timeRanges.30d'), points: 30, unit: 'day' },

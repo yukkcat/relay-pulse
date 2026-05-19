@@ -98,9 +98,9 @@ export function useMonitorData({
           // 使用真实 API
           // align 参数仅在 24h 模式下有效
           const alignParam = (timeAlign && timeRange === '24h') ? `&align=${encodeURIComponent(timeAlign)}` : '';
-          // time_filter 参数仅在 7d/30d 模式下有效（90m/24h 关闭）
+          // time_filter 参数仅在 7d/30d 模式下有效（短窗口/24h 关闭）
           const timeFilterParam =
-            (timeFilter && timeRange !== '24h' && timeRange !== '90m')
+            (timeFilter && timeRange !== '24h' && timeRange !== '90m' && timeRange !== '3h')
               ? `&time_filter=${encodeURIComponent(timeFilter)}`
               : '';
           // board 参数：默认 hot

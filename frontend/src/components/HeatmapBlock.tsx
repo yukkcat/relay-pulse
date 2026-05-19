@@ -14,7 +14,7 @@ interface HeatmapBlockProps {
   onLeave: () => void;
   /** 是否为移动端，由父组件统一检测后传递，避免每个块独立监听 */
   isMobile?: boolean;
-  /** 是否启用延迟渐变着色（仅 90m 时段启用） */
+  /** 是否启用延迟渐变着色（仅短窗口时段启用） */
   useLatencyGradient?: boolean;
 }
 

@@ -95,7 +95,7 @@ func (s *Service) ensureInitialized() error {
 }
 
 // buildURL 构建截图 URL
-// 格式: {baseURL}/?provider=p1,p2&service=s1,s2&period=90m&screenshot=1[&title=xxx]
+// 格式: {baseURL}/?provider=p1,p2&service=s1,s2&period=3h&screenshot=1[&title=xxx]
 func (s *Service) buildURL(providers, services []string, opts *CaptureOptions) (string, error) {
 	u, err := url.Parse(s.baseURL)
 	if err != nil {
@@ -109,7 +109,7 @@ func (s *Service) buildURL(providers, services []string, opts *CaptureOptions) (
 	if len(services) > 0 {
 		q.Set("service", strings.Join(services, ","))
 	}
-	q.Set("period", "90m")
+	q.Set("period", "3h")
 	q.Set("screenshot", "1")
 	if opts != nil && opts.Board != "" {
 		q.Set("board", opts.Board)

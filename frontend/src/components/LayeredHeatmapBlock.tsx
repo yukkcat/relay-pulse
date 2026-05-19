@@ -79,7 +79,7 @@ interface LayeredHeatmapBlockProps {
   isMobile?: boolean;
   /** 慢延迟阈值（毫秒） */
   slowLatencyMs: number;
-  /** 是否启用延迟渐变着色（仅 90m 时段启用） */
+  /** 是否启用延迟渐变着色（仅短窗口时段启用） */
   useLatencyGradient?: boolean;
 }
 
@@ -135,7 +135,7 @@ export const LayeredHeatmapBlock = memo(function LayeredHeatmapBlock({
   );
 
   // 时间戳对齐容差（秒）：
-  // - 90m 模式常见步长约 180s（3 分钟），调度/网络抖动可能到几十秒
+  // - 短窗口模式常见步长约 180s（3 分钟），调度/网络抖动可能到几十秒
   // - 取步长一半作为容差，并钳制在 [10s, 120s]，避免跨桶误匹配
   const toleranceSeconds = useMemo(() => {
     const baseTimeline = baseLayer?.timeline ?? [];

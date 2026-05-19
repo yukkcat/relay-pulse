@@ -47,7 +47,7 @@ interface UrlStateActions {
 
 // 默认值
 const DEFAULTS = {
-  timeRange: '90m',
+  timeRange: '3h',
   timeFilter: null as string | null, // 全天（无过滤）
   board: 'hot' as BoardFilter,       // 默认热板
   filterProvider: [] as string[],  // 空数组表示"全部"

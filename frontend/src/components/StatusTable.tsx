@@ -499,7 +499,7 @@ function StatusTableComponent({
   };
 
   const currentTimeRange = getTimeRanges(t).find((r) => r.id === timeRange);
-  const useLatencyGradient = timeRange === '90m';
+  const useLatencyGradient = timeRange === '3h' || timeRange === '90m';
 
   // 移动端：虚拟滚动卡片列表视图
   if (isMobile) {
